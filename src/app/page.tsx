@@ -52,7 +52,6 @@ type Report = {
   categoryName?: string | null;
   statusName?: string | null;
   evidenceUrl?: string | null;
-  imagePath?: string | null;
   createdAt?: string;
   reporterName?: string | null;  
   reporterEmail?: string | null; 
@@ -85,6 +84,41 @@ function parseJwt(token: string) {
   } catch {
     return null;
   }
+}
+
+type Evidence = {
+  id: number;
+  type: string;
+  url?: string;
+};
+
+function EvidenceImages({ reportId, title }: { reportId: number; title: string }) {
+  const [images, setImages] = useState<Evidence[]>([]);
+
+  useEffect(() => {
+    api
+      .get<Evidence[]>(`/reports/${reportId}/evidence`)
+      .then(({ data }) => setImages(data.filter((e) => e.type === 'image' && e.url)))
+      .catch(() => setImages([]));
+  }, [reportId]);
+
+  if (images.length === 0) return null;
+
+  return (
+    <div className="pt-1">
+      <span className="block text-[11px] font-semibold text-zinc-600 mb-1">Captura adjunta:</span>
+      <div className="flex gap-2 overflow-x-auto">
+        {images.map((image) => (
+          <img
+            key={image.id}
+            src={`${API_URL}${image.url}`}
+            alt={title}
+            className="max-h-52 rounded-xl border border-zinc-300 object-cover"
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function HomePage() {
@@ -446,16 +480,7 @@ export default function HomePage() {
               <CardContent className="pt-2 px-4 pb-3 space-y-2">
                 <p className="text-xs text-zinc-800 leading-relaxed font-medium">{report.description}</p>
 
-                {report.imagePath && (
-                  <div className="pt-1">
-                    <span className="block text-[11px] font-semibold text-zinc-600 mb-1">Captura adjunta:</span>
-                    <img
-                      src={`${API_URL}/uploads/${report.imagePath}`}
-                      alt={report.title}
-                      className="max-h-52 rounded-xl border border-zinc-300 object-cover"
-                    />
-                  </div>
-                )}
+                <EvidenceImages reportId={report.id} title={report.title} />
               </CardContent>
             </Card>
           ))}
