@@ -82,11 +82,6 @@ export function ReportCard({ report, updating, onStatusChange, onDelete }: Props
                 {status.name}
               </Badge>
             )}
-            {report.fraudProbability != null && (
-              <Badge className="bg-zinc-800 text-white font-bold text-[11px] px-3 py-1 rounded-full border-none">
-                Probabilidad de fraude: {report.fraudProbability}%
-              </Badge>
-            )}
           </div>
         </div>
 

@@ -10,8 +10,8 @@ export type Report = {
   statusId: number;
   statusName?: string | null;
   evidenceUrl?: string | null;
-  fraudProbability?: number | null;
   createdAt?: string;
+  approvedAt?: string | null;
   deletedAt?: string | null;
   reporterName?: string | null;
   reporterEmail?: string | null;

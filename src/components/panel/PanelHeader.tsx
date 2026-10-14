@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -18,12 +20,38 @@ type Props = {
   onLogout: () => void;
 };
 
+const SECTIONS = [
+  { href: '/', label: 'Reportes' },
+  { href: '/estadisticas', label: 'Estadísticas' },
+];
+
 export function PanelHeader({ email, onOpenUsers, onOpenTrash, onLogout }: Props) {
+  const pathname = usePathname();
+
   return (
-    <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-700/60 pb-5">
-      <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-white italic">Reportes Recientes</h1>
-        <p className="text-xs text-zinc-300 mt-1">Sentinel — Panel General Administrativo</p>
+    <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-700/60 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+        <div>
+          <h1 className="text-2xl font-extrabold tracking-tight text-white italic leading-none">Sentinel</h1>
+          <p className="text-[11px] text-zinc-400 mt-1">Panel General Administrativo</p>
+        </div>
+        <nav aria-label="Secciones del panel" className="flex gap-1 bg-[#1b2d48] border border-[#2a3f5f] rounded-full p-1">
+          {SECTIONS.map((section) => {
+            const active = pathname === section.href;
+            return (
+              <Link
+                key={section.href}
+                href={section.href}
+                aria-current={active ? 'page' : undefined}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors ${
+                  active ? 'bg-[#facc15] text-zinc-950' : 'text-zinc-200 hover:bg-[#233857]'
+                }`}
+              >
+                {section.label}
+              </Link>
+            );
+          })}
+        </nav>
       </div>
 
       <DropdownMenu>
