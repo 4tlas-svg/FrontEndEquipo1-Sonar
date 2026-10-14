@@ -1,8 +1,8 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login, errorMessage } from '@/lib/api';
+import { login, errorMessage, getAccessToken } from '@/lib/api';
 
 // Componentes de shadcn/ui
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,12 @@ export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState('');
   const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    if (getAccessToken()) {
+      router.replace('/');
+    }
+  }, [router]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -44,34 +50,38 @@ export default function LoginPage() {
         <CardContent className="px-6 pb-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 text-xs font-semibold text-red-700 bg-red-100 border border-red-300 rounded-xl">
+              <div role="alert" className="p-3 text-xs font-semibold text-red-700 bg-red-100 border border-red-300 rounded-xl">
                 {error}
               </div>
             )}
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-zinc-800 block">
+              <label htmlFor="email" className="text-xs font-bold text-zinc-800 block">
                 Correo electrónico
               </label>
               <Input
+                id="email"
                 type="email"
                 name="email"
+                autoComplete="username"
                 placeholder="usuario@dominio.com"
                 required
-                className="bg-white border-zinc-300 text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-[#132238] h-10 rounded-xl font-medium"
+                className="bg-white dark:bg-white border-zinc-300 text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-[#132238] h-10 rounded-xl font-medium"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-zinc-800 block">
+              <label htmlFor="password" className="text-xs font-bold text-zinc-800 block">
                 Contraseña
               </label>
               <Input
+                id="password"
                 type="password"
                 name="password"
+                autoComplete="current-password"
                 placeholder="••••••••"
                 required
-                className="bg-white border-zinc-300 text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-[#132238] h-10 rounded-xl font-medium"
+                className="bg-white dark:bg-white border-zinc-300 text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-[#132238] h-10 rounded-xl font-medium"
               />
             </div>
 
