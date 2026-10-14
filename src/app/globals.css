@@ -4,13 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  color-scheme: light dark;
-  font-family: system-ui, sans-serif;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -43,61 +37,6 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-}
-
-body {
-  margin: 0;
-  padding: 2rem 1rem;
-}
-
-main {
-  max-width: 32rem;
-  margin: 0 auto;
-}
-
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-form {
-  display: grid;
-  gap: 1rem;
-}
-
-label {
-  display: grid;
-  gap: 0.25rem;
-}
-
-input,
-button {
-  font: inherit;
-  padding: 0.5rem 0.75rem;
-}
-
-[role='alert'] {
-  color: #c0392b;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  display: grid;
-  gap: 0.25rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #8884;
-}
-
-li p {
-  margin: 0.25rem 0 0 0;
-  opacity: 0.85;
 }
 
 @theme inline {
@@ -187,20 +126,4 @@ li p {
   html {
     @apply font-sans;
   }
-}
-
-@import "tailwindcss";
-
-html, body {
-  background-color: #132238 !important; /* Azul marino de la interfaz */
-  color: #f4f4f5;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-
-main {
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box;
 }
